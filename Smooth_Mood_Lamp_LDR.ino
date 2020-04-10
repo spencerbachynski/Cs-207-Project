@@ -37,34 +37,34 @@ void setup(){
   digitalWrite(redLed,LOW);
   digitalWrite(greenLed,LOW);
   digitalWrite(blueLed,LOW);
- 
+  Serial.begin(9600);
 }
 
 void loop()
 {
-
- 
   for (float x=0;x<PI;x=x+0.00001)
   {
     RGB[0]=255*abs(sin(x*(180/PI)));           // calculate the brightness for the red led
     RGB[1]=255*abs(sin((x+PI/3)*(180/PI)));    // calculate the brightness for the green led
     RGB[2]=255*abs(sin((x+(2*PI)/3)*(180/PI)));// calculate the brightness for the blue led
     
-    ambientLight=analogRead(ldrPin); // read an store the ambient light
-  
-   if (digitalRead(buttonPin) == LOW)// allows for control over the RGB Led 
-   { 
-   count = count + 1;
-   if (count == 2)
-   {
-    count = 0;
-   }
-   }
+   ambientLight=analogRead(ldrPin); // read an store the ambient light
+   Serial.println(ambientLight);
+   
+    if (digitalRead(buttonPin) == LOW)// allows for control over the RGB Led 
+    { 
+     count = count + 1;
+     if (count == 2)
+     {
+     count = 0;
+     }
+    }
 
    if(count == 0)// using count to keep track of the when the light should be on or off
    {
    if(ambientLight>800)
-    { // start only if the ambient light is very low
+    {
+      // start only if the ambient light is very low
       //  write the brightness on the leds
       
       analogWrite(redLed,RGB[0]); 
@@ -88,5 +88,4 @@ void loop()
     }
     delay(1);
   }
- 
 }
